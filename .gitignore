@@ -1,3 +1,7 @@
 monitor/data_quality/
 .vscode/
 test.sh
+
+monitor/index.html
+monitor/wagascidb_view.html
+monitor/timeline_*.png

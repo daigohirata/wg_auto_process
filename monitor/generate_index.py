@@ -4,8 +4,7 @@ import shutil
 from tinydb import TinyDB
 
 BASE_LOCAL = "/hsm/nu/wagasci/wg_auto_process/monitor/data_quality/"
-# BASE_REMOTE = "/hsm/nu/wagasci/data"
-BASE_REMOTE = "/hsm/nu/wagasci/dhirata/data"
+BASE_REMOTE = "/hsm/nu/wagasci/data"
 
 os.makedirs(BASE_LOCAL, exist_ok=True)
 
@@ -33,13 +32,13 @@ for existing in os.listdir(BASE_LOCAL):
 # ===== rsyncで同期 =====
 for run in latest_5:
 
-    run_number = "15"  # 固定値
+    t2k_run = "15"  # 固定値
     run_name = run["name"]
 
     local_dirname = run_name
     local_path = os.path.join(BASE_LOCAL, local_dirname)
 
-    remote_path = f"{BASE_REMOTE}/run{run_number}/{run_name}"
+    remote_path = f"{BASE_REMOTE}/run{t2k_run}/{run_name}"
 
     # ===== 元ディレクトリ存在チェック =====
     if not os.path.exists(remote_path):
@@ -177,12 +176,12 @@ details summary {
 for run in latest_5:
 
     run_name = run["name"]
-    run_number = run["run_number"]
+    t2k_run = run["run_number"]
 
     local_path = os.path.join(BASE_LOCAL, run_name)
 
     html += f'<div class="run-block">'
-    html += f'<h2>Run {run_number} - {run_name}</h2>'
+    html += f'<h2>Run {t2k_run} - {run_name}</h2>'
 
     # =========================
     # ADC
