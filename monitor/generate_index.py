@@ -38,7 +38,7 @@ for run in latest_5:
     local_dirname = run_name
     local_path = os.path.join(BASE_LOCAL, local_dirname)
 
-    remote_path = f"{BASE_REMOTE}/run{t2k_run}/{run_name}"
+    remote_path = f"{BASE_REMOTE}/run{t2k_run}/wagasci/data_quality/{run_name}"
 
     # ===== 元ディレクトリ存在チェック =====
     if not os.path.exists(remote_path):
