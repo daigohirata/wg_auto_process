@@ -28,7 +28,7 @@ echo "All DIF completed. Starting spill number fixer..."
 
 START_TIME=$(date "+%F %T")
 
-# --- 実行（失敗しても通知は送るため set -e を一時解除）
+# --- 
 set +e
 wgAna /opt/wagasci_data_handling/WagasciCalibration/bin/wgSpillNumberFixer \
   -f ${DECODED_DIR}/${RUN_NAME}/

@@ -151,15 +151,6 @@ wgAna /opt/wagasci_data_handling/WagasciCalibration/bin/wgBCID \
   -i ${bcid_dist_dir} \
   -c
 
-# echo ""
-# echo "**********************************************************"
-# echo "*                 wgSpillNumberFixer                     *"
-# echo "**********************************************************"
-# echo ""
-
-# wgAna /opt/wagasci_data_handling/WagasciCalibration/bin/wgSpillNumberFixer \
-#   -f ${DECODED_DIR}/${run_name}/
-
 echo ""
 echo "**********************************************************"
 echo "*                     wgAdcCalib                         *"
