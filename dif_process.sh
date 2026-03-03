@@ -3,6 +3,48 @@
 # ### dif_process.sh ###
 
 ###########################################
+#         Define clean up process         #
+###########################################
+
+set -euo pipefail
+
+START_TIME=$(date +%s)
+START_STR=$(date "+%F %T")
+
+cleanup() {
+  EXIT_CODE=$?
+  set +e
+  END_TIME=$(date +%s)
+  END_STR=$(date "+%F %T")
+  ELAPSED=$((END_TIME - START_TIME))
+
+  if [ "$EXIT_CODE" -eq 0 ]; then
+    DONE_DIR=/hsm/nu/wagasci/wg_auto_process/process_flags/run15/${run_name:-unknown}
+    mkdir -p "$DONE_DIR"
+    touch "${DONE_DIR}/dif_${DIF_NUMBER}.done"
+
+    python /hsm/nu/wagasci/wg_auto_process/monitor/database_converter.py || true
+    python /hsm/nu/wagasci/wg_auto_process/monitor/generate_index.py || true
+  fi
+
+  /hsm/nu/wagasci/wg_auto_process/notify_slack.sh \
+    "$EXIT_CODE" \
+    "$LOG_FILE" \
+    "$WG_RUN_NUMBER" \
+    "$DIF_NUMBER" \
+    "${decoded_file:-unknown}" \
+    "$START_STR" \
+    "$END_STR" \
+    "$ELAPSED"
+  
+  if [ "$EXIT_CODE" -eq 0 ] && [ -n "${run_name:-}" ]; then
+    /hsm/nu/wagasci/wg_auto_process/run_spill_number_fixer.sh ${run_name}
+  fi
+}
+
+trap cleanup EXIT
+
+###########################################
 #                Constants                #
 ###########################################
 
@@ -17,9 +59,6 @@ LOG_FILE=$3
 ###########################################
 #                 Process                 #
 ###########################################
-
-START_TIME=$(date +%s)
-START_STR=$(date "+%F %T")
 
 raw_file=( ${RAWDATA_DIR}/physics_run_*-*-*_*-*-*_${WG_RUN_NUMBER}/physics_run_*-*-*_*-*-*_${WG_RUN_NUMBER}_ecal_dif_${DIF_NUMBER}.raw )
 raw_file=${raw_file[0]}
@@ -154,27 +193,3 @@ echo "**********************************************************"
 echo "*                   Process finish                       *"
 echo "**********************************************************"
 echo ""
-
-EXIT_CODE=$?
-
-END_TIME=$(date +%s)
-END_STR=$(date "+%F %T")
-ELAPSED=$((END_TIME - START_TIME))
-
-/hsm/nu/wagasci/wg_auto_process/notify_slack.sh \
-"$EXIT_CODE" \
-"$LOG_FILE" \
-"$WG_RUN_NUMBER" \
-"$DIF_NUMBER" \
-"$decoded_file" \
-"$START_STR" \
-"$END_STR" \
-"$ELAPSED"
-
-
-# Update data quality monitor
-
-python /hsm/nu/wagasci/wg_auto_process/monitor/database_converter.py
-python /hsm/nu/wagasci/wg_auto_process/monitor/generate_index.py
-
-exit $EXIT_CODE

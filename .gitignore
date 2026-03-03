@@ -5,3 +5,5 @@ test.sh
 monitor/index.html
 monitor/wagascidb_view.html
 monitor/timeline_*.png
+
+process_flags/
