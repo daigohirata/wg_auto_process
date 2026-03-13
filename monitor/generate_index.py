@@ -168,7 +168,7 @@ details summary {
 </head>
 <body>
 <h1>
-  Data Quality (Latest 5 runs)
+  Plots (Latest 5 runs)
   <a href="wagascidb_view.html" class="db-link">[DB View]</a>
 </h1>
 """

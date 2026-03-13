@@ -83,4 +83,4 @@ curl -s -X POST \
   "$WEBHOOK_URL"
 
 # Update wagascidb.db
-python /hsm/nu/wagasci/wg_auto_process/monitor/update_wagascidb.py
+/usr/bin/python3.9 /hsm/nu/wagasci/wg_auto_process/monitor/update_wagascidb.py >> /hsm/nu/wagasci/data/run15/database/process_wagascidb.log 2>&1

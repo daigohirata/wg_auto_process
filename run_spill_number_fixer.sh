@@ -49,15 +49,17 @@ else
 fi
 
 MESSAGE="${EMOJI} *[SpillNumberFixer ${STATUS}]*  
->Run: \`${RUN_NAME}\`  
->DIF completed: ${DONE_COUNT}/${EXPECTED_DIF}  
->Start: ${START_TIME}  
->End: ${END_TIME}"
+*Run:* \`${RUN_NAME}\`  
+*DIF completed:* ${DONE_COUNT}/${EXPECTED_DIF}  
+*Start:* ${START_TIME}  
+*End:* ${END_TIME}"
 
 curl -s -X POST \
   -H "Content-type: application/json" \
   --data "$(printf '{"attachments":[{"color":"%s","text":"%s"}]}' \
     "$COLOR" "$MESSAGE")" \
   "${WEBHOOK_URL}" >/dev/null 2>&1
+
+touch /hsm/nu/wagasci/wg_auto_process/process_flags/run${T2K_RUN}/${RUN_NAME}/spill_number_fixer.done
 
 exit "$EXIT_CODE"

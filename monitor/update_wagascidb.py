@@ -29,7 +29,7 @@ def main():
     db_location=db_file,
     repo_location=repository,
     is_borg_repo=False,
-    rebuild_db=True,
+    # rebuild_db=True,
     update_db=True,
     wagasci_libdir=wagasci_libdir
   )
